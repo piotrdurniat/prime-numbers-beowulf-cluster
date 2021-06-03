@@ -1,5 +1,5 @@
 import math
-import sys
+import argparse
 import time
 
 
@@ -33,7 +33,15 @@ def sieve_of_erastothenes(n):
     return primes
 
 
-n = int(sys.argv[1])
+# Parse args
+parser = argparse.ArgumentParser(
+    description='Finds all primes up to a given limit.')
+parser.add_argument('limit', type=int, help='The limit')
+parser.add_argument(
+    '--print', help='Print all primes after execution', action="store_true")
+args = parser.parse_args()
+
+n = args.limit
 start_time = time.time()
 
 primes = sieve_of_erastothenes(n)
@@ -43,4 +51,6 @@ time_elapsed = round(time.time() - start_time, 2)
 print(f'Calculate all primes up to: {n}')
 print(f'Time elasped: {time_elapsed} seconds')
 print(f'Number of primes calculated: {len(primes)}')
-# print(primes)
+
+if args.print:
+    print(primes)

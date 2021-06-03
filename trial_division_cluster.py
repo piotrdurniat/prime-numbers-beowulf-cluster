@@ -1,6 +1,6 @@
 from mpi4py import MPI
 import time
-import sys
+import argparse
 
 
 def trial_division_cluster(start_num, end_num, cluster_size):
@@ -23,6 +23,15 @@ def trial_division_cluster(start_num, end_num, cluster_size):
     return primes
 
 
+# Parse args
+parser = argparse.ArgumentParser(
+    description='Finds all primes up to a given limit.')
+parser.add_argument('limit', type=int, help='The limit')
+parser.add_argument(
+    '--print', help='Print all primes after execution', action="store_true")
+args = parser.parse_args()
+
+
 # Setup the cluster
 comm = MPI.COMM_WORLD
 # The the current rank and the cluster size
@@ -33,11 +42,10 @@ cluster_size = comm.Get_size()
 start_num = (current_rank * 2) + 3
 
 # Get end number from args
-end_num = int(sys.argv[1])
+end_num = args.limit
 
 start_time = time.time()
 
-# Rank number is used to divide calculation between nodes
 primes = trial_division_cluster(start_num, end_num, cluster_size)
 
 # Send results to the master node
@@ -56,3 +64,6 @@ if current_rank == 0:
     print(f'Number of nodes: {cluster_size}')
     print(f'Time elasped: {time_elapsed} seconds')
     print(f'Number of primes calculated: {len(all_primes)}')
+
+if args.print:
+    print(all_primes)
