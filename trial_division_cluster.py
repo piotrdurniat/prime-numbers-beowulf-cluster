@@ -46,7 +46,7 @@ results = comm.gather(primes, root=0)
 # Show the results if current node is the master
 if current_rank == 0:
 
-    time_elapsed = round(time.time() - start_num, 2)
+    time_elapsed = round(time.time() - start_time, 2)
 
     all_primes = [item for sublist in results for item in sublist]
     all_primes.append(2)
