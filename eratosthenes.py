@@ -13,7 +13,7 @@ def sieve_of_erastothenes(n):
     A = [True for i in range(end_number)]
 
     sqrtN = int(math.sqrt(n))
-    for i in range(start_number,  sqrtN):
+    for i in range(start_number,  sqrtN + 1):
 
         # If the number is not marked, then mark all of it's multiples
         if (A[i] == True):
