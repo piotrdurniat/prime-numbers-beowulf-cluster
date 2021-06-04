@@ -79,17 +79,17 @@ def eratosthenes_cluster(start_num, end_num):
     return primes
 
 
-precision = 6
-
 # Parse args
 parser = argparse.ArgumentParser(
     description='Finds all primes up to a given limit.')
 parser.add_argument('limit', type=int, help='The limit')
 parser.add_argument(
     '--print', help='Print all primes after execution', action="store_true")
+parser.add_argument(
+    '--precision', help='The number of decimal places in elapsed time', default=6, type=int)
 args = parser.parse_args()
 
-# Get end number from args
+precision = args.precision
 limit = args.limit
 
 # Setup the cluster
@@ -113,14 +113,14 @@ results = comm.gather(primes, root=0)
 # Show the results if current node is the master
 if node_rank == 0:
 
-    time_elapsed = round(time.time() - start_time, precision)
+    time_elapsed = time.time() - start_time
 
     # Combine all of the primes into one list
     all_primes = [item for sublist in results for item in sublist]
 
     print(f'Calculate all primes up to: {limit}')
     print(f'Number of nodes: {cluster_size}')
-    print(f'Time elasped: {time_elapsed} seconds')
+    print(f'Time elasped: {time_elapsed:.{precision}f} seconds')
     print(f'Number of primes calculated: {len(all_primes)}')
     if args.print:
         print(all_primes)

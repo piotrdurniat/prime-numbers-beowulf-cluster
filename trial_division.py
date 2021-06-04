@@ -24,25 +24,26 @@ def trial_division(n):
     return primes
 
 
-precision = 6
-
 # Parse args
 parser = argparse.ArgumentParser(
     description='Finds all primes up to a given limit.')
 parser.add_argument('limit', type=int, help='The limit')
 parser.add_argument(
     '--print', help='Print all primes after execution', action="store_true")
+parser.add_argument(
+    '--precision', help='The number of decimal places in elapsed time', default=6, type=int)
 args = parser.parse_args()
 
+precision = args.precision
 n = args.limit
 start_time = time.time()
 
 primes = trial_division(n)
 
-time_elapsed = round(time.time() - start_time, precision)
+time_elapsed = time.time() - start_time
 
 print(f'Calculate all primes up to: {n}')
-print(f'Time elasped: {time_elapsed} seconds')
+print(f'Time elasped: {time_elapsed:.{precision}f} seconds')
 print(f'Number of primes calculated: {len(primes)}')
 
 if args.print:
