@@ -33,6 +33,8 @@ def sieve_of_erastothenes(n):
     return primes
 
 
+precision = 6
+
 # Parse args
 parser = argparse.ArgumentParser(
     description='Finds all primes up to a given limit.')
@@ -46,7 +48,7 @@ start_time = time.time()
 
 primes = sieve_of_erastothenes(n)
 
-time_elapsed = round(time.time() - start_time, 2)
+time_elapsed = round(time.time() - start_time, precision)
 
 print(f'Calculate all primes up to: {n}')
 print(f'Time elasped: {time_elapsed} seconds')

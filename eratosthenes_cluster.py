@@ -79,6 +79,8 @@ def eratosthenes_cluster(start_num, end_num):
     return primes
 
 
+precision = 6
+
 # Parse args
 parser = argparse.ArgumentParser(
     description='Finds all primes up to a given limit.')
@@ -111,7 +113,7 @@ results = comm.gather(primes, root=0)
 # Show the results if current node is the master
 if node_rank == 0:
 
-    time_elapsed = round(time.time() - start_time, 2)
+    time_elapsed = round(time.time() - start_time, precision)
 
     # Combine all of the primes into one list
     all_primes = [item for sublist in results for item in sublist]
